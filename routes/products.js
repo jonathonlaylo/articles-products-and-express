@@ -13,7 +13,6 @@ router.get('/', (req, res)=>{
 });
 
 router.post('/', (req, res)=>{
-  // console.log(req.body);
   let newProducts = req.body;
   let data = {
     // id: newProducts.id,
