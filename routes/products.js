@@ -1,14 +1,10 @@
 /*jshint esversion: 6 */
 const express = require('express');
 const router = express.Router();
-const querystring = require('querystring');
-const productList = [];
+const products = require('../db/products.js');
+const productList = products.productList;
+// const productList = [];
 const counter = {count : 0};
-
-// testing to see if Postman is working
-// router.get('/', (req, res)=>{
-//   res.send('are you working');
-// });
 
 router.get('/', (req, res)=>{
   res.send({'productList': productList});
@@ -38,8 +34,6 @@ router.put('/:id', (req, res)=>{
   // console.log(newID);
   let addressID = req.params.id;
   // console.log(addressID);
-  // console.log('req.body', newProducts.id, newProducts.name);
-  // console.log(productList[0].name);
 
   if(newProducts.name){
     productList[addressID].name = newProducts.name;
@@ -56,34 +50,30 @@ router.put('/:id', (req, res)=>{
     res.json(productList[newID].inventory);
     console.log(productList);
   }
-    // if(newProducts.id === productList[i].id){
-    //   let newName = newProducts.name;
-    //   console.log(newName);
-    //   productList[i].name = newName;
-    //   res.render(productList[i].name);
-    //   console.log('put productList', productList[i].name);
-    // }
-    // console.log("test");
-
 });
 
 router.delete('/:id', (req, res)=>{
   let newProducts = req.body;
   let removeID = req.body.id;
-
+  let addressID = req.params.id;
   // if statement to remove the id
-  if (true) {
-
+  // res.send('are you working');
+  // for (var i = 0; i < productList.length; i++) {
+  //   if (newProducts[addressID]) {
+  //     // res.json(delete productList[addressID]);
+  //     res.json(productList.splice(0,1));
+  //   }
+  // }
+  if (newProducts.id) {
+    // res.json(delete productList[addressID]);
+    res.json(productList.splice(0,1));
   }
 });
 
 
 module.exports = router;
-    //something something hasOwnProperty dafuq do i know
-    // if(updateID.hasOwnProperty(newProducts.name)){
 
-    // } else if(updateID.hasOwnProperty(newProducts.price)){
-
-    // } else if(updateID.hasOwnProperty(newProducts.inventory)){
-
-    // }
+    // testing to see if Postman is working
+    // router.get('/', (req, res)=>{
+    //   res.send('are you working');
+    // });
