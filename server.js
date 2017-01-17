@@ -11,11 +11,11 @@ const hbs = handlebars.create({
   defaultlayout: 'app'
 });
 
-let data = {
-  'products' : [
-  {Name: 'laylo', Price: 'Price',inventory: 'inventory'}
- ]
-};
+// let data = {
+//   'products' : [
+//   {Name: 'laylo', Price: 'Price',inventory: 'inventory'}
+//  ]
+// };
 
 app.engine('hbs', hbs.engine);
 
@@ -26,12 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/products', products);
 
 app.get('/', (req, res)=>{
-  res.render('index', data);
+  res.render('index');
 });
-// app.get('/', (req, res) =>{
-//   res.render('products', products);
-//   // counter.count++;
-//   // res.send(counter);
-// });
 
 module.exports = app;

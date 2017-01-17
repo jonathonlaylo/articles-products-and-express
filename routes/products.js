@@ -1,25 +1,25 @@
 /*jshint esversion: 6 */
 const express = require('express');
-const router = express.Router();
 const products = require('../db/products.js');
+const server = require('../server');
+
+const app = express();
+const router = express.Router();
+
 const productList = products.productList;
-// const productList = [];
-// const counter = {count : 0};
 let idCounter = 0;
 
 router.get('/', (req, res)=>{
   res.send(productList);
 });
 
+router.get('/new', (req, res)=>{
+  res.render('products/new');
+});
+
 router.post('/', (req, res)=>{
   let newProducts = req.body;
-  // let idCounter = counter.count++;
-  // let data = {
-  //   id: counter.count++,
-  //   name: newProducts.name,
-  //   price: parseInt(newProducts.price),
-  //   inventory: parseInt(newProducts.inventory)
-  // };
+
   if(newProducts.name && newProducts.price && newProducts.inventory){
       newProducts.id = idCounter;
       idCounter++;
@@ -29,15 +29,9 @@ router.post('/', (req, res)=>{
   } else {
     res.send('Whoops');
   }
-  // productList.push(data);
-  // console.log(productList);
-  // // console.log('data.id', data.id);
-  // // console.log(req.body.id);
-  // res.send(productList);
 });
 
 router.put('/:id', (req, res)=>{
-  // res.send("are you working");
   let newProducts = req.body;
   // console.log(newProducts);
   let newID = req.body.id;
@@ -66,8 +60,7 @@ router.put('/:id', (req, res)=>{
 
 router.delete('/:id', (req, res)=>{
   let addressID = parseInt(req.params.id);
-  // if statement to remove the id
-  // res.send('are you working');
+
   for (var i = 0; i < productList.length; i++) {
     if (productList[i].id === addressID) {
       productList.splice(i,1);
@@ -81,7 +74,6 @@ router.delete('/:id', (req, res)=>{
     //   }
     // }
 });
-
 
 module.exports = router;
 
