@@ -11,12 +11,6 @@ const hbs = handlebars.create({
   defaultlayout: 'app'
 });
 
-// let data = {
-//   'products' : [
-//   {Name: 'laylo', Price: 'Price',inventory: 'inventory'}
-//  ]
-// };
-
 app.engine('hbs', hbs.engine);
 
 app.set('view engine', 'hbs');

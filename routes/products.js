@@ -10,7 +10,8 @@ const productList = products.productList;
 let idCounter = 0;
 
 router.get('/', (req, res)=>{
-  res.send(productList);
+  // res.send(productList);
+  res.render('products/product', {'postProducts': productList});
 });
 
 router.get('/new', (req, res)=>{
@@ -25,7 +26,8 @@ router.post('/', (req, res)=>{
       idCounter++;
       productList.push(newProducts);
       console.log(productList);
-      res.send(newProducts);
+      // res.send(newProducts);
+      let postProducts = res.redirect('/products');
   } else {
     res.send('Whoops');
   }
@@ -46,15 +48,13 @@ router.put('/:id', (req, res)=>{
   }
   if(newProducts.price){
     productList[addressID].price = newProducts.price;
-    res.send(productList[newID].name);
+    res.send(productList[newID].price);
     console.log(productList);
   }
   if(newProducts.inventory){
     productList[addressID].inventory = newProducts.inventory;
     res.send(productList[newID].inventory);
     console.log(productList);
-  } else {
-    res.send('Whoops');
   }
 });
 
