@@ -10,11 +10,11 @@ const productList = products.productList;
 let idCounter = 0;
 
 const PG_PASS = process.env.PG_PASS;
-const pgp = require(`pg-promise`);
+const pgp = require(`pg-promise`)();
 const db = pgp({
   host: `localhost`,
-  port: 5423,
-  database: `products`,
+  port: 5432,
+  database: `articles_products`,
   user: `jonathonlaylo`,
   password: PG_PASS
 });
@@ -22,11 +22,24 @@ const db = pgp({
 
 router.get('/', (req, res)=>{
   // res.send(productList);
-  res.render('products/product', {'postProducts': productList});
+  // res.render('products/product', {'postProducts': productList});
+
+  db.any(`SELECT * FROM products`)
+  .then(products =>{
+    res.send(products);
+    // res.render('products/product', {'postProducts': productList});
+  })
+  .catch(err => console.error(err));
 });
 
 router.get('/new', (req, res)=>{
-  res.render('products/new');
+  // res.render('products/new');
+
+  db.any(`SELECT * FROM products`)
+  .then(products => {
+    res.render('products/new');
+  })
+  .catch(err => console.error(err));
 });
 
 router.get('/:id', (req, res)=>{
