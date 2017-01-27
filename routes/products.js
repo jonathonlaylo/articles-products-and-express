@@ -9,6 +9,17 @@ const router = express.Router();
 const productList = products.productList;
 let idCounter = 0;
 
+const PG_PASS = process.env.PG_PASS;
+const pgp = require(`pg-promise`);
+const db = pgp({
+  host: `localhost`,
+  port: 5423,
+  database: `products`,
+  user: `jonathonlaylo`,
+  password: PG_PASS
+});
+
+
 router.get('/', (req, res)=>{
   // res.send(productList);
   res.render('products/product', {'postProducts': productList});
