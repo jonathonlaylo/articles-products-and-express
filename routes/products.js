@@ -18,6 +18,34 @@ router.get('/new', (req, res)=>{
   res.render('products/new');
 });
 
+router.get('/:id', (req, res)=>{
+  let product = null;
+  let addressID = req.params.id;
+
+  for (var i = 0; i < productList.length; i++) {
+    if (productList[i].id === addressID){
+      product = productList[i];
+    }
+    if(product !== null){
+      res.render('products/product', {'postProducts': products});
+    }
+  }
+});
+
+router.get('/:id/edit', (req, res)=>{
+  let product = null;
+  let addressID = req.params.id;
+
+  for (var i = 0; i < productList.length; i++) {
+    if (productList[i].id === addressID){
+      product = productList[i];
+    }
+    if(product !== null){
+      res.render('products/edit', {products});
+    }
+  }
+});
+
 router.post('/', (req, res)=>{
   let newProducts = req.body;
 
@@ -76,8 +104,3 @@ router.delete('/:id', (req, res)=>{
 });
 
 module.exports = router;
-
-    // testing to see if Postman is working
-    // router.get('/', (req, res)=>{
-    //   res.send('are you working');
-    // });
