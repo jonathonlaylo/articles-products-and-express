@@ -1,27 +1,23 @@
-<h1>Products</h1>
-
-<form action="/products" method="post">
-  <label name="name">Product Name</label>
-  <input type="text" name="name" placeholder="enter names" style="text-align: center">
-    <br>
-  <label name="name">Price</label>
-  <input type="text" name="price" placeholder="enter amount" style="text-align: center">
-    <br>
-  <label name="name">Inventory</label>
-  <input type="text" name="inventory" placeholder="enter inventory" style="text-align: center">
-    <br>
-  <input type="submit" name="submit">
+<h1>Your Product List</h1>
+Add More Products Here!
+<form action="/products/new" method="get">
+   <button type="submit"> Add Products </button>
 </form>
 
-<h1>Your Product List</h1>
-
-{{#each postProducts}}
-  <div class="postProducts">
+{{#each products}}
+  <div class="newProduct">
     Product Name: {{name}}
     <br>
     Price: ${{price}}
     <br>
     Inventory: {{inventory}}
-  </div>
     <br>
+    <form action="/products/{{id}}/edit" method="get">
+     <button type="submit"> Wanna Edit Me?</button>
+    </form>
+    <form action="/products/{{id}}/delete" method="get">
+     <button type="submit"> Wanna Delete Me?</button>
+    </form>
+  </div>
 {{/each}}
+

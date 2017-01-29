@@ -3,7 +3,6 @@ const express = require('express');
 const products = require('../db/products.js');
 const server = require('../server');
 
-const app = express();
 const router = express.Router();
 
 const productList = products.productList;
@@ -19,112 +18,145 @@ const db = pgp({
   password: PG_PASS
 });
 
-
 router.get('/', (req, res)=>{
   // res.send(productList);
   // res.render('products/product', {'postProducts': productList});
+  // res.render('products/product');
 
   db.any(`SELECT * FROM products`)
   .then(products =>{
-    res.send(products);
-    // res.render('products/product', {'postProducts': productList});
+    console.log('products', products);
+    res.render('products/product', {'products': products});
+
   })
-  .catch(err => console.error(err));
+  .catch(err => {
+    res.redirect(`products/new`);
+  });
 });
 
 router.get('/new', (req, res)=>{
-  // res.render('products/new');
+  res.render('products/new');
 
-  db.any(`SELECT * FROM products`)
-  .then(products => {
-    res.render('products/new');
-  })
-  .catch(err => console.error(err));
+  // db.any(`SELECT * FROM products`)
+  // .then(products => {
+  //   res.render('products/new', {'postProducts': productList});
+  // })
+  // .catch(err => console.error(err));
 });
 
 router.get('/:id', (req, res)=>{
   let product = null;
-  let addressID = req.params.id;
+  let addressID = parseInt(req.params.id);
 
-  for (var i = 0; i < productList.length; i++) {
-    if (productList[i].id === addressID){
-      product = productList[i];
-    }
-    if(product !== null){
-      res.render('products/product', {'postProducts': products});
-    }
-  }
+  db.one(`SELECT * FROM products WHERE id = ${addressID}`)
+  .then(products =>{
+    res.render('products/product', {'products': products});
+  })
+  .catch(err => console.log(err));
+
+  // for (var i = 0; i < productList.length; i++) {
+  //   if (productList[i].id === addressID){
+  //     product = productList[i];
+  //   }
+  //   if(product !== null){
+  //     res.render('products/product', {'postProducts': products});
+  //   }
+  // }
 });
 
 router.get('/:id/edit', (req, res)=>{
   let product = null;
-  let addressID = req.params.id;
+  let addressID = parseInt(req.params.id);
 
-  for (var i = 0; i < productList.length; i++) {
-    if (productList[i].id === addressID){
-      product = productList[i];
-    }
-    if(product !== null){
-      res.render('products/edit', {products});
-    }
-  }
+  db.one(`SELECT * FROM products WHERE id = ${addressID}`)
+  .then(products =>{
+    res.render('products/edit', {products});
+  })
+  .catch(err => console.log(err));
+
+  // for (var i = 0; i < productList.length; i++) {
+  //   if (productList[i].id === addressID){
+  //     product = productList[i];
+  //   }
+  //   if(product !== null){
+  //     res.render('products/edit', {products});
+  //   }
+  // }
 });
 
 router.post('/', (req, res)=>{
   let newProducts = req.body;
 
-  if(newProducts.name && newProducts.price && newProducts.inventory){
-      newProducts.id = idCounter;
-      idCounter++;
-      productList.push(newProducts);
-      console.log(productList);
-      // res.send(newProducts);
-      let postProducts = res.redirect('/products');
-  } else {
-    res.send('Whoops');
-  }
+  db.none(`INSERT INTO products (name, price, inventory) VALUES ('${newProducts.name}', ${newProducts.price}, ${newProducts.inventory})`)
+  .then(products =>{
+    res.redirect('/products');
+    // console.log('newProducts', newProducts);
+  })
+  .catch(err =>{
+    console.error(err);
+  });
+
+  // if(newProducts.name && newProducts.price && newProducts.inventory){
+  //     newProducts.id = idCounter;
+  //     idCounter++;
+  //     productList.push(newProducts);
+  //     console.log(productList);
+  //     // res.send(newProducts);
+  //     let postProducts = res.redirect('/products');
+  // } else {
+  //   res.redirect('/products/new');
+  // }
 });
 
 router.put('/:id', (req, res)=>{
   let newProducts = req.body;
-  // console.log(newProducts);
   let newID = req.body.id;
-  // console.log(newID);
-  let addressID = req.params.id;
-  // console.log(addressID);
+  let addressID = parseInt(req.params.id);
 
-  if(newProducts.name){
-    productList[addressID].name = newProducts.name;
-    res.send(productList[newID].name);
-    console.log(productList);
-  }
-  if(newProducts.price){
-    productList[addressID].price = newProducts.price;
-    res.send(productList[newID].price);
-    console.log(productList);
-  }
-  if(newProducts.inventory){
-    productList[addressID].inventory = newProducts.inventory;
-    res.send(productList[newID].inventory);
-    console.log(productList);
-  }
+  db.one(`SELECT * FROM products WHERE id = ${addressID}`)
+  .then(products =>{
+    res.render('/products/product');
+  })
+  .catch(err =>{
+    console.error(err);
+  });
+
+  // if(newProducts.name){
+  //   productList[addressID].name = newProducts.name;
+  //   res.send(productList[newID].name);
+  //   console.log(productList);
+  // }
+  // if(newProducts.price){
+  //   productList[addressID].price = newProducts.price;
+  //   res.send(productList[newID].price);
+  //   console.log(productList);
+  // }
+  // if(newProducts.inventory){
+  //   productList[addressID].inventory = newProducts.inventory;
+  //   res.send(productList[newID].inventory);
+  //   console.log(productList);
+  // }
 });
 
 router.delete('/:id', (req, res)=>{
   let addressID = parseInt(req.params.id);
 
-  for (var i = 0; i < productList.length; i++) {
-    if (productList[i].id === addressID) {
-      productList.splice(i,1);
-      console.log(productList);
-    }
-  }
-  console.log(productList);
-  res.send(productList);
-    //   if (newProducts.id) {
-    //    res.send(productList.splice(i,1));
-    //   }
-    // }
+  db.any(`DELETE FROM products WHERE id = ${addressID}`)
+  .then(products =>{
+
+  })
+  .catch(err =>{
+    console.error(err);
+  });
+
+  // for (var i = 0; i < productList.length; i++) {
+  //   if (productList[i].id === addressID) {
+  //     productList.splice(i,1);
+  //     console.log(productList);
+  //   }
+  // }
+  // console.log(productList);
+  // res.send(productList);
 });
 
 module.exports = router;

@@ -1,7 +1,7 @@
 <h1>Make a Product List</h1>
 
-<form action="/products/new" method="post">
- <label name="name">Product Name</label>
+<form action="/products/" method="post" id="newProduct" name="newProduct">
+  <label name="name">Product Name</label>
   <input type="text" name="name" placeholder="enter names" style="text-align: center">
     <br>
   <label name="name">Price</label>
@@ -10,5 +10,6 @@
   <label name="name">Inventory</label>
   <input type="text" name="inventory" placeholder="enter inventory" style="text-align: center">
     <br>
-  <input type="submit" name="submit">
-</form>
+  <input id= "newProduct" type="submit" value="Add Product">
+
+ </form>
