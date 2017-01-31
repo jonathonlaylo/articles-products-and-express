@@ -1,0 +1,16 @@
+<h1>Sucessful Delete of Product!</h1>
+
+<form action="/products/" method="post" id="deleteProduct" name="editProduct">
+
+</form>
+
+{{!-- router.get('/:id/edit', (req, res)=>{
+  let product = null;
+  let addressID = parseInt(req.params.id);
+
+  db.one(`SELECT * FROM products WHERE id = ${addressID}`)
+  .then(edits =>{
+    res.render('products/edit', {products});
+  })
+  .catch(err => console.log(err));
+ --}}

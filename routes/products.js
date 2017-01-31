@@ -69,7 +69,7 @@ router.get('/:id/edit', (req, res)=>{
   let addressID = parseInt(req.params.id);
 
   db.one(`SELECT * FROM products WHERE id = ${addressID}`)
-  .then(products =>{
+  .then(edits =>{
     res.render('products/edit', {products});
   })
   .catch(err => console.log(err));
@@ -138,15 +138,16 @@ router.put('/:id', (req, res)=>{
   // }
 });
 
-router.delete('/:id', (req, res)=>{
+router.get('/:id/delete', (req, res)=>{
   let addressID = parseInt(req.params.id);
 
-  db.any(`DELETE FROM products WHERE id = ${addressID}`)
-  .then(products =>{
-
+  db.none(`DELETE FROM products WHERE id = ${addressID}`)
+  .then(() =>{
+    res.redirect('/products');
+    // res.redirect('products/delete',{products});
   })
   .catch(err =>{
-    console.error(err);
+    console.log('WAT?');
   });
 
   // for (var i = 0; i < productList.length; i++) {
