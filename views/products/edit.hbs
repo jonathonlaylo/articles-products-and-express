@@ -1,15 +1,17 @@
 <h1>Edit Your List</h1>
 
-<form action="/products/" method="post" id="editProduct" name="editProduct">
+<form action="/products/{{id}}" method="post" id="editProduct" name="editProduct">
   <label name="name">Product Name</label>
-  <input type="text" name="name" placeholder="enter names" style="text-align: center">
+  <input type="text" name="name" value={{name}}>
     <br>
   <label name="name">Price</label>
-  <input type="text" name="price" placeholder="enter amount" style="text-align: center">
+  <input type="text" name="price" value={{price}}>
     <br>
   <label name="name">Inventory</label>
-  <input type="text" name="inventory" placeholder="enter inventory" style="text-align: center">
+  <input type="text" name="inventory" value={{inventory}}>
     <br>
+
+  <input type="hidden" name="_method" value="PUT">
   <input id= "editProduct" type="submit" value="Edit Product">
 
  </form>

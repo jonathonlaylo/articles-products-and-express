@@ -65,12 +65,15 @@ router.get('/:id', (req, res)=>{
 });
 
 router.get('/:id/edit', (req, res)=>{
-  let product = null;
+  // let product = null;
+  // let addressID = req.body;
   let addressID = parseInt(req.params.id);
 
   db.one(`SELECT * FROM products WHERE id = ${addressID}`)
-  .then(edits =>{
-    res.render('products/edit', {products});
+
+  .then((products) =>{
+    // res.render('/products/`${addressID.id}`/edit');
+    res.render('./products/edit', products);
   })
   .catch(err => console.log(err));
 
@@ -109,13 +112,14 @@ router.post('/', (req, res)=>{
 });
 
 router.put('/:id', (req, res)=>{
-  let newProducts = req.body;
-  let newID = req.body.id;
-  let addressID = parseInt(req.params.id);
+  let addressID = req.body;
+  // let newID = req.body.id;
+  let queryID = parseInt(req.params.id);
 
-  db.one(`SELECT * FROM products WHERE id = ${addressID}`)
+  // db.one(`SELECT * FROM products WHERE id = ${addressID}`)
+  db.one(`UPDATE products SET name = '${req.body.name}', price = '${req.body.price}', '${req.body.inventory}' WHERE id = '${queryID}' RETURNING *`)
   .then(products =>{
-    res.render('/products/product');
+    res.render('./products/product', products);
   })
   .catch(err =>{
     console.error(err);
