@@ -1,0 +1,23 @@
+<h1>Your Article List</h1>
+Add More Articles Here!
+<form action="/articles/new" method="get">
+  <button type="submit">Add Articles</button>
+</form>
+
+{{#each articles}}
+  <div class="newArticles">
+    Title Name: {{title}}
+    <br>
+    Body: {{body}}
+    <br>
+    Author: {{author}}
+    <br>
+    URL: artcles/{{url_title}}
+    <form action="/articles/{{id}}/edit" method="get">
+      <button type="submit"> Wanna Edit Me?</button>
+    </form>
+    <form action="/articles/{{id}}/delete" method="get">
+      <button type="submit"> Wanna Delete Me?</button>
+    </form>
+  </div>
+{{/each}}

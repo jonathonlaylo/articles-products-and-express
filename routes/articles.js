@@ -55,4 +55,4 @@ router.route('/:title/edit')
 
 
 
-module.exports = articles;
+module.exports = router;
