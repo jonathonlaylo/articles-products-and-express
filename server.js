@@ -19,6 +19,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/products', products);
 
+app.use('/articles', articles);
+
 app.get('/', (req, res)=>{
   res.render('index');
 });

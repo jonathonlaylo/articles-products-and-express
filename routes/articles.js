@@ -8,9 +8,25 @@ const router = express.Router();
 
 const articlesList = articles.articlesList;
 
+const PG_PASS = process.env.PG_PASS;
+const pgp = require(`pg-promise`)();
+const db = pgp({
+  host: `localhost`,
+  port: 5432,
+  database: `articles_products`,
+  user: `jonathonlaylo`,
+  password: PG_PASS
+});
+
 router.route('/')
   .get((req, res)=>{
-
+    db.any(`SELECT * FROM articles`)
+    .then(articles=>{
+      res.render('articles/article', {'articles': articles});
+    })
+    .catch(err =>{
+      res.redirect('articles/new');
+    });
   })
   .post((req, res)=>{
 
@@ -36,23 +52,5 @@ router.route('/:title/edit')
   .get((req, res)=>{
 
   });
-
-// router.post('/', (req, res)=>{
-//   let newArticles = req.body;
-//   let urlEncode = encodeURIComponent(String(req.body.title));
-
-//   if(newArticles.title && newArticles.body && newArticles.author){
-//       newArticles.urlTitle = urlEncode;
-
-//       articlesList.push(newArticles);
-//       console.log(articlesList);
-//       // res.send(newArticles);
-//       // let postArticles = res.redirect('/articles');
-//   } else {
-//     res.send('Whoops');
-//   }
-// });
-
-
 
 module.exports = router;
