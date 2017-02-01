@@ -21,15 +21,23 @@ const db = pgp({
 router.route('/')
   .get((req, res)=>{
     db.any(`SELECT * FROM articles`)
-    .then(articles=>{
-      res.render('articles/article', {'articles': articles});
+      .then(articles=>{
+        res.render('articles/article', {'articles': articles});
+      })
+      .catch(err =>{
+        res.redirect('articles/new');
+      });
     })
-    .catch(err =>{
-      res.redirect('articles/new');
-    });
-  })
   .post((req, res)=>{
-
+    let newArticles = req.body;
+    let url_title = encodeURIComponent(newArticles.title);
+    db.none(`INSERT INTO articles (title, body, author, url_title) VALUES (${newArticles.title}, ${newArticles.body}, ${newArticles.author}, ${newArticles.url_title})`)
+      .then(articles=>{
+        res.redirect('/articles');
+      })
+      .catch(err=>{
+        console.error(err);
+      });
   });
 
 router.route('/new')
