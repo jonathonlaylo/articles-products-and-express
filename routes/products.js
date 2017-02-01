@@ -3,6 +3,7 @@ const express = require('express');
 const products = require('../db/products.js');
 const server = require('../server');
 
+const app = express();
 const router = express.Router();
 
 const productList = products.productList;

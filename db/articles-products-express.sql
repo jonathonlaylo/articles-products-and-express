@@ -16,3 +16,11 @@ CREATE TABLE products (
   inventory INTEGER NOT NULL
 );
 
+DROP TABLE IF EXISTS articles;
+CREATE TABLE articles (
+  id SERIAL NOT NULL PRIMARY KEY,
+  title text,
+  body text,
+  author text,
+  url_title text
+);
