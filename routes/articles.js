@@ -33,6 +33,7 @@ router.route('/')
     let url_title = encodeURIComponent(newArticles.title);
     db.none(`INSERT INTO articles (title, body, author, url_title) VALUES ('${newArticles.title}', '${newArticles.body}', '${newArticles.author}', '${url_title}')`)
       .then(articles=>{
+        // console.log(newArticles.title);
         res.redirect('/articles');
       })
       .catch(err=>{
@@ -53,7 +54,14 @@ router.route('/:title')
 
   })
   .delete((req, res)=>{
-
+  let addressTitle = req.body;
+    db.none(`DELETE FROM articles WHERE title = ${addressTitle.title}`)
+    .then(()=>{
+      res.redirect('/articles');
+    })
+    .catch(err =>{
+      console.log('what?');
+    });
   });
 
 router.route('/:title/edit')
