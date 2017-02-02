@@ -31,7 +31,7 @@ router.route('/')
   .post((req, res)=>{
     let newArticles = req.body;
     let url_title = encodeURIComponent(newArticles.title);
-    db.none(`INSERT INTO articles (title, body, author, url_title) VALUES (${newArticles.title}, ${newArticles.body}, ${newArticles.author}, ${newArticles.url_title})`)
+    db.none(`INSERT INTO articles (title, body, author, url_title) VALUES ('${newArticles.title}', '${newArticles.body}', '${newArticles.author}', '${url_title}')`)
       .then(articles=>{
         res.redirect('/articles');
       })
